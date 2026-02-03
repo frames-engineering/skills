@@ -23,7 +23,7 @@ jobs:
         run: |
           curl -fsSL https://agentwallet.mcpay.tech/skill.md -o skills/agentwallet/skill.md
           curl -fsSL https://agentwallet.mcpay.tech/heartbeat.md -o skills/agentwallet/heartbeat.md
-          curl -fsSL https://agentwallet.mcpay.tech/skills.json -o skills/agentwallet/skills.json
+          curl -fsSL https://agentwallet.mcpay.tech/skill.json -o skills/agentwallet/skill.json
 
       - name: Check for changes
         id: changes
