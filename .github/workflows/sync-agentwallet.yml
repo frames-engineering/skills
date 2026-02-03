@@ -1,0 +1,44 @@
+name: Sync AgentWallet Files
+
+on:
+  schedule:
+    # Run every 6 hours
+    - cron: '0 */6 * * *'
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Create agentwallet directory
+        run: mkdir -p agentwallet
+
+      - name: Fetch files from agentwallet.mcpay.tech
+        run: |
+          curl -fsSL https://agentwallet.mcpay.tech/skill.md -o agentwallet/skill.md
+          curl -fsSL https://agentwallet.mcpay.tech/heartbeat.md -o agentwallet/heartbeat.md
+          curl -fsSL https://agentwallet.mcpay.tech/skills.json -o agentwallet/skills.json
+
+      - name: Check for changes
+        id: changes
+        run: |
+          git add agentwallet/
+          if git diff --staged --quiet; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Commit and push changes
+        if: steps.changes.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git commit -m "chore: sync agentwallet files"
+          git push
