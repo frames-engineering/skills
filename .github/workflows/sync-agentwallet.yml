@@ -17,7 +17,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Create agentwallet directory
-        run: mkdir -p agentwallet
+        run: mkdir -p skills/agentwallet
 
       - name: Fetch files from agentwallet.mcpay.tech
         run: |
@@ -28,7 +28,7 @@ jobs:
       - name: Check for changes
         id: changes
         run: |
-          git add agentwallet/
+          git add skills/agentwallet/
           if git diff --staged --quiet; then
             echo "changed=false" >> $GITHUB_OUTPUT
           else
