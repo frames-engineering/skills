@@ -1,4 +1,4 @@
-name: Sync AgentWallet Files
+name: Sync Skill Files
 
 on:
   schedule:
@@ -16,8 +16,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Create agentwallet directory
-        run: mkdir -p skills/agentwallet
+      - name: Create directories
+        run: |
+          mkdir -p skills/agentwallet
+          mkdir -p skills/registry
 
       - name: Fetch files from agentwallet.mcpay.tech
         run: |
@@ -25,10 +27,14 @@ jobs:
           curl -fsSL https://agentwallet.mcpay.tech/heartbeat.md -o skills/agentwallet/HEARTBEAT.md
           curl -fsSL https://agentwallet.mcpay.tech/skill.json -o skills/agentwallet/skill.json
 
+      - name: Fetch files from registry.mcpay.tech
+        run: |
+          curl -fsSL https://registry.mcpay.tech/skill.md -o skills/registry/SKILL.md
+
       - name: Check for changes
         id: changes
         run: |
-          git add skills/agentwallet/
+          git add skills/agentwallet/ skills/registry/
           if git diff --staged --quiet; then
             echo "changed=false" >> $GITHUB_OUTPUT
           else
@@ -40,5 +46,5 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git commit -m "chore: sync agentwallet files"
+          git commit -m "chore: sync skill files"
           git push
