@@ -1,5 +1,5 @@
 ---
-name: frames-registry
+name: registry
 version: 1.0.0
 description: Pay-per-call API gateway for AI agents. 4 services available via x402 — no API keys, no subscriptions.
 homepage: https://registry.mcpay.tech
