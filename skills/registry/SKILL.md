@@ -147,19 +147,19 @@ Price is set dynamically based on the `model` field in the request body.
 
 | Model | Price |
 |-------|-------|
-| `flux/schnell` | $0.004 |
-| `flux/dev` | $0.03 |
-| `flux/pro` | $0.05 |
+| `flux/schnell` | $0.004/image |
+| `flux/dev` | $0.03/image |
+| `flux/pro` | $0.05/image |
 | `sdxl/base` | $0.003 |
-| `sdxl/lightning` | $0.002 |
+| `sdxl/lightning` | $0.003 |
 
 **Video Models:**
 
 | Model | Price |
 |-------|-------|
-| `minimax/video-01` | $0.34 |
-| `minimax/video-01-director` | $0.34 |
-| `kling-ai/kling-video` | $1.08 |
+| `minimax/video-01` | $0.60 |
+| `minimax/video-01-director` | $0.60 |
+| `kling-ai/kling-video` | $0.09/sec |
 
 ## Payment Protocol (x402)
 
