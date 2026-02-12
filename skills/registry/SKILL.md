@@ -69,7 +69,7 @@ A crypto wallet funded with USDC is required to use paid endpoints. Two options:
 | Service | Slug | Description | Endpoints | Price Range |
 |---------|------|-------------|-----------|-------------|
 | [Twitter API](https://registry.mcpay.tech/api/service/twitter/skill.md) | `twitter` | Full Twitter API access - users, tweets, search, trends, and more via twitterapi.io | 17 | $0.005 - $0.02 |
-| [AI Generation API](https://registry.mcpay.tech/api/service/ai-gen/skill.md) | `ai-gen` | Run AI models for image generation (FLUX, SDXL) and video generation (Minimax, Kling) | 1 | $0.01 |
+| [AI Generation API](https://registry.mcpay.tech/api/service/ai-gen/skill.md) | `ai-gen` | Run AI models for image, video, audio, and 3D generation | 1 | $0.01 |
 | [x402 Test Service](https://registry.mcpay.tech/api/service/test/skill.md) | `test` | Test x402 payment flows on Base Sepolia (EVM) and Solana Devnet. Use this service to verify your x402 client integration is working correctly. | 2 | $0.001 |
 | [Exa API](https://registry.mcpay.tech/api/service/exa/skill.md) | `exa` | Semantic web search via Exa | 4 | $0.002 - $0.01 |
 
@@ -148,88 +148,47 @@ Price is set dynamically based on the `model` field in the request body.
 | Model | Price |
 |-------|-------|
 | `flux/schnell` | $0.004/image |
-| `flux/dev` | $0.03/image |
-| `flux/pro` | $0.05/image |
-| `flux/2-max` | $0.05/image |
-| `flux/1.1-pro-ultra` | $0.08/image |
-| `flux/kontext-max` | $0.10/image |
+| `flux/2-pro` | $0.02 |
 | `flux/kontext-pro` | $0.05/image |
-| `sdxl/base` | $0.003 |
-| `sdxl/lightning` | $0.003 |
-| `stability/sd-3.5-medium` | $0.05/image |
-| `stability/sd-3.5-large` | $0.08/image |
-| `stability/sd-3.5-large-turbo` | $0.05/image |
-| `google/imagen-4` | $0.05/image |
-| `google/imagen-4-fast` | $0.03/image |
-| `google/imagen-4-ultra` | $0.08/image |
-| `google/imagen-3` | $0.06/image |
-| `google/imagen-3-fast` | $0.03/image |
-| `bytedance/seedream-4.5` | $0.05/image |
 | `bytedance/seedream-4` | $0.04/image |
-| `bytedance/seedream-3` | $0.04/image |
+| `google/nano-banana` | $0.05/image |
+| `google/nano-banana-pro` | $0.18/image |
+| `google/imagen-4-fast` | $0.03/image |
 | `ideogram/v3-turbo` | $0.04/image |
-| `ideogram/v3-quality` | $0.11/image |
-| `ideogram/v3-balanced` | $0.08/image |
-| `ideogram/v2a-turbo` | $0.03/image |
-| `ideogram/v2a` | $0.05/image |
-| `ideogram/v2-turbo` | $0.06/image |
-| `ideogram/v2` | $0.10/image |
-| `recraft/v3` | $0.05/image |
-| `recraft/v3-svg` | $0.10/image |
-| `minimax/image-01` | $0.02/image |
-| `luma/photon` | $0.04/image |
-| `luma/photon-flash` | $0.02/image |
-| `tencent/hunyuan-image-3` | $0.10/image |
-| `nvidia/sana` | $0.23 |
-| `nvidia/sana-sprint` | $0.002 |
-| `qwen/qwen-image` | $0.03/image |
-| `leonardoai/lucid-origin` | $0.03/image |
-| `prunaai/flux-fast` | $0.006/image |
+| `prunaai/z-image-turbo` | $0.006/image |
+| `prunaai/p-image` | $0.006/image |
+| `fofr/sdxl-emoji` | $0.01 |
+| `qwen/qwen-image-edit-2511` | $0.04/image |
+| `xai/grok-2-image` | $0.09/image |
+| `openai/dall-e-3` | $0.15/image |
+| `nightmareai/real-esrgan` | $0.003/image |
+| `851-labs/background-remover` | $0.002 |
 
 **Video Models:**
 
 | Model | Price |
 |-------|-------|
-| `minimax/video-01` | $0.60 |
-| `minimax/video-01-director` | $0.60 |
-| `minimax/video-01-live` | $0.60 |
-| `minimax/hailuo-02` | $0.33 |
-| `minimax/hailuo-2.3` | $0.34 |
-| `minimax/hailuo-2.3-fast` | $0.23 |
-| `kling-ai/kling-video` | $0.09/sec |
-| `kling-ai/v2.5-turbo-pro` | $0.09/sec |
-| `kling-ai/v2.1` | $0.06/sec |
-| `kling-ai/v2.1-master` | $0.34/sec |
-| `kling-ai/v2.0` | $0.34/sec |
-| `kling-ai/v1.6-pro` | $0.12/sec |
-| `google/veo-2` | $0.60/sec |
-| `google/veo-3` | $0.48/sec |
-| `google/veo-3-fast` | $0.18/sec |
-| `google/veo-3.1` | $0.48/sec |
-| `google/veo-3.1-fast` | $0.18/sec |
+| `google/veo-3` | $0.48/sec (audio), $0.24/sec (no audio) |
+| `google/veo-3-fast` | $0.18/sec (audio), $0.12/sec (no audio) |
+| `google/veo-3.1` | $0.48/sec (audio), $0.24/sec (no audio) |
+| `google/veo-3.1-fast` | $0.18/sec (audio), $0.12/sec (no audio) |
 | `openai/sora-2` | $0.12/sec |
-| `openai/sora-2-pro` | $0.36/sec |
-| `bytedance/seedance-1-pro` | $0.08/sec |
-| `bytedance/seedance-1-lite` | $0.05/sec |
-| `bytedance/seedance-1-pro-fast` | $0.03/sec |
-| `pixverse/v5` | $0.10/sec |
-| `pixverse/v4.5` | $0.10/sec |
-| `luma/ray` | $0.54 |
-| `luma/ray-2-720p` | $0.22/sec |
-| `luma/ray-2-540p` | $0.12/sec |
-| `luma/ray-flash-2-720p` | $0.08/sec |
-| `luma/ray-flash-2-540p` | $0.04/sec |
-| `wan-video/wan-2.5-t2v` | $0.12/sec |
-| `wan-video/wan-2.5-i2v` | $0.12/sec |
-| `wan-video/wan-2.5-t2v-fast` | $0.09/sec |
-| `wan-video/wan-2.5-i2v-fast` | $0.09/sec |
+| `openai/sora-2-pro` | $0.36/sec (720p), $0.60/sec (1080p) |
+| `kwaivgi/kling-v2.5-turbo-pro` | $0.09/sec |
+| `kwaivgi/kling-v2.6` | $0.09/sec |
+| `kwaivgi/kling-v2.6-motion-control` | $0.09/sec (std), $0.15/sec (pro) |
+| `bytedance/seedance-1-pro` | $0.04/sec (480p), $0.08/sec (720p), $0.18/sec (1080p) |
+| `bytedance/seedance-1-lite` | $0.03/sec (480p), $0.05/sec (720p), $0.09/sec (1080p) |
+| `bytedance/seedance-1-pro-fast` | $0.02/sec (480p), $0.03/sec (720p), $0.08/sec (1080p) |
+| `bytedance/seedance-1.5-pro` | $0.04/sec (720p), $0.07/sec (720p+audio) |
+| `minimax/video-01` | $0.60 |
 | `wan-video/wan-2.2-t2v-fast` | $0.12 |
 | `wan-video/wan-2.2-i2v-fast` | $0.07 |
-| `wavespeedai/wan-2.1-t2v-720p` | $0.29/sec |
-| `wavespeedai/wan-2.1-i2v-720p` | $0.30/sec |
-| `leonardoai/motion-2.0` | $0.36 |
-| `tencent/hunyuan-video` | $1.52 |
-| `lightricks/ltx-video` | $0.10 |
+| `wan-video/wan-2.5-i2v-fast` | $0.09/sec (720p), $0.13/sec (1080p) |
+| `runwayml/gen4-turbo` | $0.06/sec |
+| `runwayml/gen4-aleph` | $0.22/sec |
+| `veed/fabric-1.0` | $0.10/sec (480p), $0.18/sec (768p) |
+| `shreejalmaharjan-27/tiktok-short-captions` | $0.002/sec |
 
 ## Payment Protocol (x402)
 
