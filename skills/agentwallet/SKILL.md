@@ -2,8 +2,8 @@
 name: agentwallet
 version: 0.1.10
 description: Wallets for AI agents with x402 payment signing, referral rewards, and policy-controlled actions.
-homepage: https://agentwallet.mcpay.tech
-metadata: {"moltbot":{"category":"finance","api_base":"https://agentwallet.mcpay.tech/api"},"x402":{"supported":true,"chains":["solana","evm"],"networks":["solana:EtWTRABZaYq6iMfeYKouRu166VU2xqa1","solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp","eip155:8453","eip155:84532"],"tokens":["USDC"],"endpoint":"/api/wallets/{username}/actions/x402/fetch","legacyEndpoint":"/api/wallets/{username}/actions/x402/pay"},"referrals":{"enabled":true,"endpoint":"/api/wallets/{username}/referrals"}}
+homepage: https://frames.ag
+metadata: {"moltbot":{"category":"finance","api_base":"https://frames.ag/api"},"x402":{"supported":true,"chains":["solana","evm"],"networks":["solana:EtWTRABZaYq6iMfeYKouRu166VU2xqa1","solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp","eip155:8453","eip155:84532"],"tokens":["USDC"],"endpoint":"/api/wallets/{username}/actions/x402/fetch","legacyEndpoint":"/api/wallets/{username}/actions/x402/pay"},"referrals":{"enabled":true,"endpoint":"/api/wallets/{username}/referrals"}}
 ---
 
 # AgentWallet
@@ -27,7 +27,7 @@ AgentWallet provides server wallets for AI agents. Wallets are provisioned after
 **This is the simplest way to call x402 APIs.** Send the target URL and body - the server handles 402 detection, payment signing, and retry automatically.
 
 ```bash
-curl -s -X POST "https://agentwallet.mcpay.tech/api/wallets/USERNAME/actions/x402/fetch" \
+curl -s -X POST "https://frames.ag/api/wallets/USERNAME/actions/x402/fetch" \
   -H "Authorization: Bearer TOKEN" \
   -H "Content-Type: application/json" \
   -d '{"url":"https://enrichx402.com/api/exa/search","method":"POST","body":{"query":"AI agents","numResults":3}}'
@@ -132,13 +132,13 @@ Store credentials at `~/.agentwallet/config.json`:
 
 ## Connect Flow
 
-**Web flow:** Ask user for email → direct to `https://agentwallet.mcpay.tech/connect?email=EMAIL` → user enters 6-digit OTP → page displays credentials (`AGENTWALLET_USERNAME`, `AGENTWALLET_API_TOKEN`, etc.). User should save the API token securely.
+**Web flow:** Ask user for email → direct to `https://frames.ag/connect?email=EMAIL` → user enters 6-digit OTP → page displays credentials (`AGENTWALLET_USERNAME`, `AGENTWALLET_API_TOKEN`, etc.). User should save the API token securely.
 
 **API flow (for CLI/agents):**
 
 Step 1 - Send OTP:
 ```bash
-curl -X POST https://agentwallet.mcpay.tech/api/connect/start \
+curl -X POST https://frames.ag/api/connect/start \
   -H "Content-Type: application/json" \
   -d '{"email":"your@email.com"}'
 ```
@@ -146,7 +146,7 @@ Returns `username` in response. For referrals, add `"ref":"REFERRER_USERNAME"` t
 
 Step 2 - Ask user for OTP, then complete:
 ```bash
-curl -X POST https://agentwallet.mcpay.tech/api/connect/complete \
+curl -X POST https://frames.ag/api/connect/complete \
   -H "Content-Type: application/json" \
   -d '{"username":"USERNAME_FROM_STEP_1","email":"your@email.com","otp":"USER_OTP"}'
 ```
@@ -156,7 +156,7 @@ Returns `apiToken`, `evmAddress`, `solanaAddress`. Save the `apiToken` for all w
 
 ## Referral & Airdrop Program
 
-Share your referral link: `https://agentwallet.mcpay.tech/connect?ref=YOUR_USERNAME&email=THEIR_EMAIL`
+Share your referral link: `https://frames.ag/connect?ref=YOUR_USERNAME&email=THEIR_EMAIL`
 
 Both referrer and new agent earn airdrop points. Points: referral (200), first tx (50), daily active (10), weekly streak (100).
 
@@ -164,7 +164,7 @@ Tiers: Bronze (0-4, 1x), Silver (5-24, 1.5x), Gold (25-99, 2x), Diamond (100+, 3
 
 Check rewards:
 ```bash
-curl https://agentwallet.mcpay.tech/api/wallets/YOUR_USERNAME/referrals \
+curl https://frames.ag/api/wallets/YOUR_USERNAME/referrals \
   -H "Authorization: Bearer FUND_API_TOKEN"
 ```
 
@@ -172,9 +172,9 @@ curl https://agentwallet.mcpay.tech/api/wallets/YOUR_USERNAME/referrals \
 
 ## Network Pulse
 
-Public network stats: `GET https://agentwallet.mcpay.tech/api/network/pulse` — returns active agents, transaction counts, volume, trending APIs.
+Public network stats: `GET https://frames.ag/api/network/pulse` — returns active agents, transaction counts, volume, trending APIs.
 
-Personal stats (authenticated): `GET https://agentwallet.mcpay.tech/api/wallets/YOUR_USERNAME/stats` — returns rank, transaction history, volume, referral info, streak.
+Personal stats (authenticated): `GET https://frames.ag/api/wallets/YOUR_USERNAME/stats` — returns rank, transaction history, volume, referral info, streak.
 
 ---
 
@@ -182,18 +182,18 @@ Personal stats (authenticated): `GET https://agentwallet.mcpay.tech/api/wallets/
 
 | File | URL |
 |------|-----|
-| **SKILL.md** (this file) | `https://agentwallet.mcpay.tech/skill.md` |
-| **HEARTBEAT.md** | `https://agentwallet.mcpay.tech/heartbeat.md` |
-| **package.json** (metadata) | `https://agentwallet.mcpay.tech/skill.json` |
+| **SKILL.md** (this file) | `https://frames.ag/skill.md` |
+| **HEARTBEAT.md** | `https://frames.ag/heartbeat.md` |
+| **package.json** (metadata) | `https://frames.ag/skill.json` |
 
 ### Heartbeat
 
 Run periodically to check for skill updates, wallet status, and recent activity:
 ```bash
-curl https://agentwallet.mcpay.tech/heartbeat.md
+curl https://frames.ag/heartbeat.md
 ```
 
-**Base URL:** `https://agentwallet.mcpay.tech/api/v1`
+**Base URL:** `https://frames.ag/api/v1`
 
 ---
 
@@ -201,17 +201,17 @@ curl https://agentwallet.mcpay.tech/heartbeat.md
 
 Use your Fund API token (starts with `mf_`) as: `Authorization: Bearer FUND_API_TOKEN`
 
-Check connection (public, no auth): `GET https://agentwallet.mcpay.tech/api/wallets/USERNAME` — returns `connected: true/false` with wallet addresses if connected.
+Check connection (public, no auth): `GET https://frames.ag/api/wallets/USERNAME` — returns `connected: true/false` with wallet addresses if connected.
 
 ---
 
 ## Funding Wallets
 
-Direct users to `https://agentwallet.mcpay.tech/u/YOUR_USERNAME` to fund via Coinbase Onramp (card, bank, or Coinbase account). Supports Base (USDC) and Solana (SOL).
+Direct users to `https://frames.ag/u/YOUR_USERNAME` to fund via Coinbase Onramp (card, bank, or Coinbase account). Supports Base (USDC) and Solana (SOL).
 
 Check balance after funding:
 ```bash
-curl https://agentwallet.mcpay.tech/api/wallets/USERNAME/balances \
+curl https://frames.ag/api/wallets/USERNAME/balances \
   -H "Authorization: Bearer FUND_API_TOKEN"
 ```
 
@@ -229,7 +229,7 @@ curl https://agentwallet.mcpay.tech/api/wallets/USERNAME/balances \
 
 ### EVM Transfer
 ```bash
-curl -X POST "https://agentwallet.mcpay.tech/api/wallets/USERNAME/actions/transfer" \
+curl -X POST "https://frames.ag/api/wallets/USERNAME/actions/transfer" \
   -H "Authorization: Bearer TOKEN" -H "Content-Type: application/json" \
   -d '{"to":"0x...","amount":"1000000","asset":"usdc","chainId":8453}'
 ```
@@ -239,7 +239,7 @@ Supported USDC chains: Ethereum (1), Sepolia (11155111), Optimism (10), Polygon 
 
 ### Solana Transfer
 ```bash
-curl -X POST "https://agentwallet.mcpay.tech/api/wallets/USERNAME/actions/transfer-solana" \
+curl -X POST "https://frames.ag/api/wallets/USERNAME/actions/transfer-solana" \
   -H "Authorization: Bearer TOKEN" -H "Content-Type: application/json" \
   -d '{"to":"RECIPIENT","amount":"1000000000","asset":"sol","network":"devnet"}'
 ```
@@ -247,14 +247,14 @@ Fields: `to` (address), `amount` (smallest units — SOL: 9 decimals, USDC: 6 de
 
 ### EVM Contract Call
 ```bash
-curl -X POST "https://agentwallet.mcpay.tech/api/wallets/USERNAME/actions/contract-call" \
+curl -X POST "https://frames.ag/api/wallets/USERNAME/actions/contract-call" \
   -H "Authorization: Bearer TOKEN" -H "Content-Type: application/json" \
   -d '{"to":"0x...","data":"0x...","value":"0","chainId":8453}'
 ```
 
 ### Sign Message
 ```bash
-curl -X POST "https://agentwallet.mcpay.tech/api/wallets/USERNAME/actions/sign-message" \
+curl -X POST "https://frames.ag/api/wallets/USERNAME/actions/sign-message" \
   -H "Authorization: Bearer TOKEN" -H "Content-Type: application/json" \
   -d '{"chain":"solana","message":"hello"}'
 ```
@@ -262,7 +262,7 @@ curl -X POST "https://agentwallet.mcpay.tech/api/wallets/USERNAME/actions/sign-m
 ### Solana Devnet Faucet
 Request free devnet SOL for testing. Sends 0.1 SOL to your Solana wallet on devnet. Rate limited to 3 requests per 24 hours.
 ```bash
-curl -X POST "https://agentwallet.mcpay.tech/api/wallets/USERNAME/actions/faucet-sol" \
+curl -X POST "https://frames.ag/api/wallets/USERNAME/actions/faucet-sol" \
   -H "Authorization: Bearer TOKEN" -H "Content-Type: application/json" \
   -d '{}'
 ```
@@ -323,7 +323,7 @@ Use this only if you need fine-grained control. **For most cases, use x402/fetch
 | 404/405 on signing | Use `/api/wallets/{USERNAME}/actions/x402/pay` (slash not dash) |
 | `blank argument` | Use single-line curl, not multiline with `\` |
 | `AlreadyProcessed` | Get a NEW signature for each request |
-| `insufficient_funds` | Fund wallet at `https://agentwallet.mcpay.tech/u/USERNAME` |
+| `insufficient_funds` | Fund wallet at `https://frames.ag/u/USERNAME` |
 
 ---
 
@@ -331,13 +331,13 @@ Use this only if you need fine-grained control. **For most cases, use x402/fetch
 
 Get current policy:
 ```bash
-curl https://agentwallet.mcpay.tech/api/wallets/YOUR_USERNAME/policy \
+curl https://frames.ag/api/wallets/YOUR_USERNAME/policy \
   -H "Authorization: Bearer FUND_API_TOKEN"
 ```
 
 Update policy:
 ```bash
-curl -X PATCH https://agentwallet.mcpay.tech/api/wallets/YOUR_USERNAME/policy \
+curl -X PATCH https://frames.ag/api/wallets/YOUR_USERNAME/policy \
   -H "Authorization: Bearer FUND_API_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{"max_per_tx_usd":"25","allow_chains":["base","solana"],"allow_contracts":["0x..."]}'
