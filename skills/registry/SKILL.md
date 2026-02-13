@@ -162,7 +162,6 @@ Price is set dynamically based on the `model` field in the request body.
 | `xai/grok-2-image` | $0.09/image |
 | `openai/dall-e-3` | $0.15/image |
 | `nightmareai/real-esrgan` | $0.003/image |
-| `851-labs/background-remover` | $0.002 |
 
 **Video Models:**
 
