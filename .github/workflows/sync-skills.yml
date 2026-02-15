@@ -24,6 +24,7 @@ jobs:
         run: |
           mkdir -p skills/agentwallet
           mkdir -p skills/registry
+          mkdir -p skills/wordspace
 
       - name: Fetch agentwallet skill
         run: |
@@ -34,6 +35,10 @@ jobs:
       - name: Fetch registry skill
         run: |
           curl -fsSL https://registry.mcpay.tech/skill.md -o skills/registry/SKILL.md
+
+      - name: Fetch wordspace skill
+        run: |
+          curl -fsSL https://raw.githubusercontent.com/frames-engineering/wordspace/main/skills/wordspace/SKILL.md -o skills/wordspace/SKILL.md
 
       - name: Fetch open-prose and websh skills
         run: |
