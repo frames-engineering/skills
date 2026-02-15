@@ -2,9 +2,8 @@ name: Sync Skill Files
 
 on:
   schedule:
-    # Run every 6 hours
     - cron: '0 */6 * * *'
-  workflow_dispatch: # Allow manual trigger
+  workflow_dispatch:
 
 jobs:
   sync:
@@ -16,25 +15,38 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
       - name: Create directories
         run: |
           mkdir -p skills/agentwallet
           mkdir -p skills/registry
 
-      - name: Fetch files from agentwallet.mcpay.tech
+      - name: Fetch agentwallet skill
         run: |
           curl -fsSL https://agentwallet.mcpay.tech/skill.md -o skills/agentwallet/SKILL.md
           curl -fsSL https://agentwallet.mcpay.tech/heartbeat.md -o skills/agentwallet/HEARTBEAT.md
           curl -fsSL https://agentwallet.mcpay.tech/skill.json -o skills/agentwallet/skill.json
 
-      - name: Fetch files from registry.mcpay.tech
+      - name: Fetch registry skill
         run: |
           curl -fsSL https://registry.mcpay.tech/skill.md -o skills/registry/SKILL.md
+
+      - name: Fetch open-prose and websh skills
+        run: |
+          npx -y skills add openprose/prose -y
+          rm -rf skills/open-prose skills/websh
+          cp -r .agents/skills/open-prose skills/open-prose
+          cp -r .agents/skills/websh skills/websh
+          rm -rf .agents .claude
 
       - name: Check for changes
         id: changes
         run: |
-          git add skills/agentwallet/ skills/registry/
+          git add skills/
           if git diff --staged --quiet; then
             echo "changed=false" >> $GITHUB_OUTPUT
           else
