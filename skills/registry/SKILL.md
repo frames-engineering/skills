@@ -2,10 +2,10 @@
 name: registry
 version: 1.0.0
 description: Pay-per-call API gateway for AI agents. 4 services available via x402 — no API keys, no subscriptions.
-homepage: https://registry.mcpay.tech
+homepage: https://registry.frames.ag
 metadata:
   category: api-gateway
-  api_base: https://registry.mcpay.tech/api
+  api_base: https://registry.frames.ag/api
   x402:
     supported: true
     chains:
@@ -46,7 +46,7 @@ Pay-per-call API gateway for AI agents. 4 services available via the x402 paymen
 ## Base URL
 
 ```
-https://registry.mcpay.tech
+https://registry.frames.ag
 ```
 
 ## Prerequisites
@@ -59,23 +59,23 @@ A crypto wallet funded with USDC is required to use paid endpoints. Two options:
 ## Quick Start
 
 1. **Set up a wallet** — create an [AgentWallet](https://agentwallet.mcpay.tech/skill.md) or fund your own wallet with USDC
-2. **Discover services:** `GET https://registry.mcpay.tech/api/services`
-3. **Read service docs:** `GET https://registry.mcpay.tech/api/service/{slug}/skill.md`
-4. **Check pricing:** `GET https://registry.mcpay.tech/api/pricing`
+2. **Discover services:** `GET https://registry.frames.ag/api/services`
+3. **Read service docs:** `GET https://registry.frames.ag/api/service/{slug}/skill.md`
+4. **Check pricing:** `GET https://registry.frames.ag/api/pricing`
 5. **Make a paid request** — via AgentWallet's `/x402/fetch` or directly with x402 headers (see Payment Protocol below)
 
 ## Services (4)
 
 | Service | Slug | Description | Endpoints | Price Range |
 |---------|------|-------------|-----------|-------------|
-| [Twitter API](https://registry.mcpay.tech/api/service/twitter/skill.md) | `twitter` | Full Twitter API access - users, tweets, search, trends, and more via twitterapi.io | 17 | $0.005 - $0.02 |
-| [AI Generation API](https://registry.mcpay.tech/api/service/ai-gen/skill.md) | `ai-gen` | Run AI models for image, video, audio, and 3D generation | 1 | $0.01 |
-| [x402 Test Service](https://registry.mcpay.tech/api/service/test/skill.md) | `test` | Test x402 payment flows on Base Sepolia (EVM) and Solana Devnet. Use this service to verify your x402 client integration is working correctly. | 2 | $0.001 |
-| [Exa API](https://registry.mcpay.tech/api/service/exa/skill.md) | `exa` | Semantic web search via Exa | 4 | $0.002 - $0.01 |
+| [Twitter API](https://registry.frames.ag/api/service/twitter/skill.md) | `twitter` | Full Twitter API access - users, tweets, search, trends, and more via twitterapi.io | 17 | $0.005 - $0.02 |
+| [AI Generation API](https://registry.frames.ag/api/service/ai-gen/skill.md) | `ai-gen` | Run AI models for image, video, audio, and 3D generation | 1 | $0.01 |
+| [x402 Test Service](https://registry.frames.ag/api/service/test/skill.md) | `test` | Test x402 payment flows on Base Sepolia (EVM) and Solana Devnet. Use this service to verify your x402 client integration is working correctly. | 2 | $0.001 |
+| [Exa API](https://registry.frames.ag/api/service/exa/skill.md) | `exa` | Semantic web search via Exa | 4 | $0.002 - $0.01 |
 
 ## Service Endpoints
 
-Each service lives at `https://registry.mcpay.tech/api/service/{slug}` and exposes:
+Each service lives at `https://registry.frames.ag/api/service/{slug}` and exposes:
 
 | Endpoint | Description |
 |----------|-------------|
@@ -89,7 +89,7 @@ Each service lives at `https://registry.mcpay.tech/api/service/{slug}` and expos
 
 ### Twitter API (`twitter`)
 
-Base: `https://registry.mcpay.tech/api/service/twitter` | [Docs](https://registry.mcpay.tech/api/service/twitter/docs) | [OpenAPI](https://registry.mcpay.tech/api/service/twitter/openapi.json) | [Skill](https://registry.mcpay.tech/api/service/twitter/skill.md)
+Base: `https://registry.frames.ag/api/service/twitter` | [Docs](https://registry.frames.ag/api/service/twitter/docs) | [OpenAPI](https://registry.frames.ag/api/service/twitter/openapi.json) | [Skill](https://registry.frames.ag/api/service/twitter/skill.md)
 
 | Endpoint | Price | Description |
 |----------|-------|-------------|
@@ -113,7 +113,7 @@ Base: `https://registry.mcpay.tech/api/service/twitter` | [Docs](https://registr
 
 ### AI Generation API (`ai-gen`)
 
-Base: `https://registry.mcpay.tech/api/service/ai-gen` | [Docs](https://registry.mcpay.tech/api/service/ai-gen/docs) | [OpenAPI](https://registry.mcpay.tech/api/service/ai-gen/openapi.json) | [Skill](https://registry.mcpay.tech/api/service/ai-gen/skill.md)
+Base: `https://registry.frames.ag/api/service/ai-gen` | [Docs](https://registry.frames.ag/api/service/ai-gen/docs) | [OpenAPI](https://registry.frames.ag/api/service/ai-gen/openapi.json) | [Skill](https://registry.frames.ag/api/service/ai-gen/skill.md)
 
 | Endpoint | Price | Description |
 |----------|-------|-------------|
@@ -121,7 +121,7 @@ Base: `https://registry.mcpay.tech/api/service/ai-gen` | [Docs](https://registry
 
 ### x402 Test Service (`test`)
 
-Base: `https://registry.mcpay.tech/api/service/test` | [Docs](https://registry.mcpay.tech/api/service/test/docs) | [OpenAPI](https://registry.mcpay.tech/api/service/test/openapi.json) | [Skill](https://registry.mcpay.tech/api/service/test/skill.md)
+Base: `https://registry.frames.ag/api/service/test` | [Docs](https://registry.frames.ag/api/service/test/docs) | [OpenAPI](https://registry.frames.ag/api/service/test/openapi.json) | [Skill](https://registry.frames.ag/api/service/test/skill.md)
 
 | Endpoint | Price | Description |
 |----------|-------|-------------|
@@ -130,7 +130,7 @@ Base: `https://registry.mcpay.tech/api/service/test` | [Docs](https://registry.m
 
 ### Exa API (`exa`)
 
-Base: `https://registry.mcpay.tech/api/service/exa` | [Docs](https://registry.mcpay.tech/api/service/exa/docs) | [OpenAPI](https://registry.mcpay.tech/api/service/exa/openapi.json) | [Skill](https://registry.mcpay.tech/api/service/exa/skill.md)
+Base: `https://registry.frames.ag/api/service/exa` | [Docs](https://registry.frames.ag/api/service/exa/docs) | [OpenAPI](https://registry.frames.ag/api/service/exa/openapi.json) | [Skill](https://registry.frames.ag/api/service/exa/skill.md)
 
 | Endpoint | Price | Description |
 |----------|-------|-------------|
@@ -218,16 +218,16 @@ Failed requests are automatically refunded.
 
 | Endpoint | Description |
 |----------|-------------|
-| `GET https://registry.mcpay.tech/api` | Platform info and version |
-| `GET https://registry.mcpay.tech/api/services` | List all services with metadata |
-| `GET https://registry.mcpay.tech/api/services/:slug` | Single service details |
-| `GET https://registry.mcpay.tech/api/pricing` | All pricing policies |
-| `GET https://registry.mcpay.tech/api/networks` | Supported payment networks |
-| `GET https://registry.mcpay.tech/api/health` | Health check |
-| `GET https://registry.mcpay.tech/api/packages` | Skill/agent package catalog |
-| `GET https://registry.mcpay.tech/api/packages/:slug/bundle` | Download package bundle |
-| `GET https://registry.mcpay.tech/.well-known/x402` | x402 discovery document |
-| `GET https://registry.mcpay.tech/docs` | Interactive docs (HTML) |
+| `GET https://registry.frames.ag/api` | Platform info and version |
+| `GET https://registry.frames.ag/api/services` | List all services with metadata |
+| `GET https://registry.frames.ag/api/services/:slug` | Single service details |
+| `GET https://registry.frames.ag/api/pricing` | All pricing policies |
+| `GET https://registry.frames.ag/api/networks` | Supported payment networks |
+| `GET https://registry.frames.ag/api/health` | Health check |
+| `GET https://registry.frames.ag/api/packages` | Skill/agent package catalog |
+| `GET https://registry.frames.ag/api/packages/:slug/bundle` | Download package bundle |
+| `GET https://registry.frames.ag/.well-known/x402` | x402 discovery document |
+| `GET https://registry.frames.ag/docs` | Interactive docs (HTML) |
 
 ## Agent Integration
 
@@ -242,7 +242,7 @@ Failed requests are automatically refunded.
 ```
 POST https://agentwallet.mcpay.tech/x402/fetch
 {
-  "url": "https://registry.mcpay.tech/api/service/twitter/api/search-tweets",
+  "url": "https://registry.frames.ag/api/service/twitter/api/search-tweets",
   "method": "POST",
   "body": { "query": "AI agents" }
 }
