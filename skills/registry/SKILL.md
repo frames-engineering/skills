@@ -1,7 +1,7 @@
 ---
 name: registry
 version: 1.0.0
-description: Pay-per-call API gateway for AI agents. 4 services available via x402 — no API keys, no subscriptions.
+description: Pay-per-call API gateway for AI agents. 5 services available via x402 — no API keys, no subscriptions.
 homepage: https://registry.frames.ag
 metadata:
   category: api-gateway
@@ -21,17 +21,19 @@ metadata:
       - USDT
       - CASH
   services:
-    count: 4
+    count: 5
     slugs:
     - twitter
     - ai-gen
     - test
     - exa
+    - openrouter
     endpoints:
     twitter: /api/service/twitter
     ai-gen: /api/service/ai-gen
     test: /api/service/test
     exa: /api/service/exa
+    openrouter: /api/service/openrouter
     skill_docs: /api/service/{slug}/skill.md
   wallet:
     recommended: agentwallet
@@ -41,7 +43,7 @@ metadata:
 
 # Frames Registry
 
-Pay-per-call API gateway for AI agents. 4 services available via the x402 payment protocol. No API keys, no subscriptions — just pay per request with crypto.
+Pay-per-call API gateway for AI agents. 5 services available via the x402 payment protocol. No API keys, no subscriptions — just pay per request with crypto.
 
 ## Base URL
 
@@ -64,7 +66,7 @@ A crypto wallet funded with USDC is required to use paid endpoints. Two options:
 4. **Check pricing:** `GET https://registry.frames.ag/api/pricing`
 5. **Make a paid request** — via AgentWallet's `/x402/fetch` or directly with x402 headers (see Payment Protocol below)
 
-## Services (4)
+## Services (5)
 
 | Service | Slug | Description | Endpoints | Price Range |
 |---------|------|-------------|-----------|-------------|
@@ -72,6 +74,7 @@ A crypto wallet funded with USDC is required to use paid endpoints. Two options:
 | [AI Generation API](https://registry.frames.ag/api/service/ai-gen/skill.md) | `ai-gen` | Run AI models for image, video, audio, and 3D generation | 1 | $0.01 |
 | [x402 Test Service](https://registry.frames.ag/api/service/test/skill.md) | `test` | Test x402 payment flows on Base Sepolia (EVM) and Solana Devnet. Use this service to verify your x402 client integration is working correctly. | 2 | $0.001 |
 | [Exa API](https://registry.frames.ag/api/service/exa/skill.md) | `exa` | Semantic web search via Exa | 4 | $0.002 - $0.01 |
+| [OpenRouter](https://registry.frames.ag/api/service/openrouter/skill.md) | `openrouter` | Text generation via 300+ models (OpenAI, Anthropic, Google, Meta, etc.) | 1 | $0.01 |
 
 ## Service Endpoints
 
@@ -138,6 +141,14 @@ Base: `https://registry.frames.ag/api/service/exa` | [Docs](https://registry.fra
 | `POST /api/find-similar` | $0.01 | Find similar pages |
 | `POST /api/contents` | $0.002 | Extract URL contents |
 | `POST /api/answer` | $0.01 | AI-powered answer |
+
+### OpenRouter (`openrouter`)
+
+Base: `https://registry.frames.ag/api/service/openrouter` | [Docs](https://registry.frames.ag/api/service/openrouter/docs) | [OpenAPI](https://registry.frames.ag/api/service/openrouter/openapi.json) | [Skill](https://registry.frames.ag/api/service/openrouter/skill.md)
+
+| Endpoint | Price | Description |
+|----------|-------|-------------|
+| `POST /api/invoke` | $0.01 | Generate text via OpenRouter (price varies by model) |
 
 ### AI Model Pricing (`ai-gen`)
 

@@ -30,7 +30,7 @@ AgentWallet provides server wallets for AI agents. Wallets are provisioned after
 curl -s -X POST "https://frames.ag/api/wallets/USERNAME/actions/x402/fetch" \
   -H "Authorization: Bearer TOKEN" \
   -H "Content-Type: application/json" \
-  -d '{"url":"https://registry.mcpay.tech/api/service/exa/api/search","method":"POST","body":{"query":"AI agents","numResults":3}}'
+  -d '{"url":"https://registry.frames.ag/api/service/exa/api/search","method":"POST","body":{"query":"AI agents","numResults":3}}'
 ```
 
 **That's it!** The response contains the final API result:
