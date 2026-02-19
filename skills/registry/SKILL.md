@@ -74,7 +74,7 @@ A crypto wallet funded with USDC is required to use paid endpoints. Two options:
 | [AI Generation API](https://registry.frames.ag/api/service/ai-gen/skill.md) | `ai-gen` | Run AI models for image, video, audio, and 3D generation | 1 | $0.01 |
 | [x402 Test Service](https://registry.frames.ag/api/service/test/skill.md) | `test` | Test x402 payment flows on Base Sepolia (EVM) and Solana Devnet. Use this service to verify your x402 client integration is working correctly. | 2 | $0.001 |
 | [Exa API](https://registry.frames.ag/api/service/exa/skill.md) | `exa` | Semantic web search via Exa | 4 | $0.002 - $0.01 |
-| [OpenRouter](https://registry.frames.ag/api/service/openrouter/skill.md) | `openrouter` | Text generation via 300+ models (OpenAI, Anthropic, Google, Meta, etc.) | 1 | $0.01 |
+| [OpenRouter](https://registry.frames.ag/api/service/openrouter/skill.md) | `openrouter` | Text generation via 300+ models (OpenAI, Anthropic, Google, Meta, etc.) | 0 | free |
 
 ## Service Endpoints
 
@@ -141,14 +141,6 @@ Base: `https://registry.frames.ag/api/service/exa` | [Docs](https://registry.fra
 | `POST /api/find-similar` | $0.01 | Find similar pages |
 | `POST /api/contents` | $0.002 | Extract URL contents |
 | `POST /api/answer` | $0.01 | AI-powered answer |
-
-### OpenRouter (`openrouter`)
-
-Base: `https://registry.frames.ag/api/service/openrouter` | [Docs](https://registry.frames.ag/api/service/openrouter/docs) | [OpenAPI](https://registry.frames.ag/api/service/openrouter/openapi.json) | [Skill](https://registry.frames.ag/api/service/openrouter/skill.md)
-
-| Endpoint | Price | Description |
-|----------|-------|-------------|
-| `POST /api/invoke` | $0.01 | Generate text via OpenRouter (price varies by model) |
 
 ### AI Model Pricing (`ai-gen`)
 
