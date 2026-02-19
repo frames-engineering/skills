@@ -66,6 +66,7 @@ curl -s -X POST "https://frames.ag/api/wallets/USERNAME/actions/x402/fetch" \
 | `dryRun` | boolean | No | Preview payment cost without paying |
 | `timeout` | number | No | Request timeout in ms (default: 30000, max: 120000) |
 | `idempotencyKey` | string | No | For deduplication |
+| `walletAddress` | string | No | Wallet address to use (for multi-wallet users). Omit to use default wallet. |
 
 ### Dry Run (Preview Cost)
 
@@ -270,7 +271,7 @@ curl -X POST "https://frames.ag/api/wallets/USERNAME/actions/transfer" \
   -H "Authorization: Bearer TOKEN" -H "Content-Type: application/json" \
   -d '{"to":"0x...","amount":"1000000","asset":"usdc","chainId":8453}'
 ```
-Fields: `to` (address), `amount` (smallest units — ETH: 18 decimals, USDC: 6 decimals), `asset` (`"eth"` or `"usdc"`), `chainId`, `idempotencyKey` (optional).
+Fields: `to` (address), `amount` (smallest units — ETH: 18 decimals, USDC: 6 decimals), `asset` (`"eth"` or `"usdc"`), `chainId`, `idempotencyKey` (optional), `walletAddress` (optional — specify which wallet to send from).
 
 Supported USDC chains: Ethereum (1), Sepolia (11155111), Optimism (10), Polygon (137), Arbitrum (42161), Base (8453), Base Sepolia (84532).
 
@@ -280,7 +281,7 @@ curl -X POST "https://frames.ag/api/wallets/USERNAME/actions/transfer-solana" \
   -H "Authorization: Bearer TOKEN" -H "Content-Type: application/json" \
   -d '{"to":"RECIPIENT","amount":"1000000000","asset":"sol","network":"devnet"}'
 ```
-Fields: `to` (address), `amount` (smallest units — SOL: 9 decimals, USDC: 6 decimals), `asset` (`"sol"` or `"usdc"`), `network` (`"mainnet"` or `"devnet"`), `idempotencyKey` (optional).
+Fields: `to` (address), `amount` (smallest units — SOL: 9 decimals, USDC: 6 decimals), `asset` (`"sol"` or `"usdc"`), `network` (`"mainnet"` or `"devnet"`), `idempotencyKey` (optional), `walletAddress` (optional — specify which wallet to send from).
 
 ### EVM Contract Call
 ```bash
@@ -295,6 +296,7 @@ curl -X POST "https://frames.ag/api/wallets/USERNAME/actions/sign-message" \
   -H "Authorization: Bearer TOKEN" -H "Content-Type: application/json" \
   -d '{"chain":"solana","message":"hello"}'
 ```
+Fields: `message` (string), `chain` (`"ethereum"` or `"solana"`, default: `"ethereum"`), `walletAddress` (optional — specify which wallet to sign with).
 
 ### Solana Devnet Faucet
 Request free devnet SOL for testing. Sends 0.1 SOL to your Solana wallet on devnet. Rate limited to 3 requests per 24 hours.
@@ -303,6 +305,7 @@ curl -X POST "https://frames.ag/api/wallets/USERNAME/actions/faucet-sol" \
   -H "Authorization: Bearer TOKEN" -H "Content-Type: application/json" \
   -d '{}'
 ```
+Fields: `walletAddress` (optional — specify which Solana wallet to fund), `idempotencyKey` (optional).
 Response: `{"actionId":"...","status":"confirmed","amount":"0.1 SOL","txHash":"...","explorer":"...","remaining":2}`
 
 Response format for all actions: `{"actionId":"...","status":"confirmed","txHash":"...","explorer":"..."}`
@@ -337,6 +340,7 @@ Use this only if you need fine-grained control. **For most cases, use x402/fetch
 | `preferredChainId` | number | Specific EVM chain ID |
 | `idempotencyKey` | string | For deduplication |
 | `dryRun` | boolean | Sign without storing (for testing) |
+| `walletAddress` | string | Wallet address to use (for multi-wallet users) |
 
 ### Key Rules
 - Signatures are **ONE-TIME USE** — consumed even on failed requests
