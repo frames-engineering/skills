@@ -1,6 +1,6 @@
 ---
 name: agentwallet
-version: 0.1.10
+version: 0.1.11
 description: Wallets for AI agents with x402 payment signing, referral rewards, and policy-controlled actions.
 homepage: https://frames.ag
 metadata: {"moltbot":{"category":"finance","api_base":"https://frames.ag/api"},"x402":{"supported":true,"chains":["solana","evm"],"networks":["solana:EtWTRABZaYq6iMfeYKouRu166VU2xqa1","solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp","eip155:8453","eip155:84532"],"tokens":["USDC"],"endpoint":"/api/wallets/{username}/actions/x402/fetch","legacyEndpoint":"/api/wallets/{username}/actions/x402/pay"},"referrals":{"enabled":true,"endpoint":"/api/wallets/{username}/referrals"}}
@@ -222,6 +222,43 @@ curl https://frames.ag/api/wallets/USERNAME/balances \
 **Balances:** `GET /api/wallets/USERNAME/balances` (auth required)
 
 **Activity:** `GET /api/wallets/USERNAME/activity?limit=50` (auth optional — authenticated sees all events, public sees limited). Event types: `otp.*`, `policy.*`, `wallet.action.*`, `x402.authorization.signed`.
+
+### Multi-Wallet Management
+
+Each user starts with one EVM and one Solana wallet at onboarding. Higher trust tiers can create additional wallets.
+
+**Wallet limits per chain:**
+
+| Tier | Limit per chain | How to qualify |
+|------|----------------|----------------|
+| Default | 1 | — |
+| Silver | 1 | 5+ referrals or 200+ airdrop points |
+| Gold | 5 | 25+ referrals or 1000+ airdrop points |
+| Diamond | Unlimited | 100+ referrals or 5000+ airdrop points |
+
+**List wallets:**
+```bash
+curl https://frames.ag/api/wallets/USERNAME/wallets \
+  -H "Authorization: Bearer TOKEN"
+```
+Response includes tier info and current usage:
+```json
+{
+  "wallets": [{"id":"...","chainType":"ethereum","address":"0x...","frozen":false,"createdAt":"..."}],
+  "tier": "gold",
+  "limits": {"ethereum": 5, "solana": 5},
+  "counts": {"ethereum": 2, "solana": 1}
+}
+```
+
+**Create additional wallet:**
+```bash
+curl -X POST https://frames.ag/api/wallets/USERNAME/wallets \
+  -H "Authorization: Bearer TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"chainType":"ethereum"}'
+```
+Returns 403 if wallet limit is reached for your tier.
 
 ---
 
