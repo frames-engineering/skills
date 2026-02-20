@@ -1,6 +1,6 @@
 ---
 name: agentwallet
-version: 0.1.11
+version: 0.1.12
 description: Wallets for AI agents with x402 payment signing, referral rewards, and policy-controlled actions.
 homepage: https://frames.ag
 metadata: {"moltbot":{"category":"finance","api_base":"https://frames.ag/api"},"x402":{"supported":true,"chains":["solana","evm"],"networks":["solana:EtWTRABZaYq6iMfeYKouRu166VU2xqa1","solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp","eip155:8453","eip155:84532"],"tokens":["USDC"],"endpoint":"/api/wallets/{username}/actions/x402/fetch","legacyEndpoint":"/api/wallets/{username}/actions/x402/pay"},"referrals":{"enabled":true,"endpoint":"/api/wallets/{username}/referrals"}}
@@ -287,8 +287,17 @@ Fields: `to` (address), `amount` (smallest units — SOL: 9 decimals, USDC: 6 de
 ```bash
 curl -X POST "https://frames.ag/api/wallets/USERNAME/actions/contract-call" \
   -H "Authorization: Bearer TOKEN" -H "Content-Type: application/json" \
-  -d '{"to":"0x...","data":"0x...","value":"0","chainId":8453}'
+  -d '{"chainType":"ethereum","to":"0x...","data":"0x...","value":"0","chainId":8453}'
 ```
+Fields: `chainType` (`"ethereum"`), `to` (contract address), `data` (hex-encoded calldata), `value` (wei, optional, default `"0x0"`), `chainId`, `idempotencyKey` (optional), `walletAddress` (optional).
+
+### Solana Contract Call (Program Instruction)
+```bash
+curl -X POST "https://frames.ag/api/wallets/USERNAME/actions/contract-call" \
+  -H "Authorization: Bearer TOKEN" -H "Content-Type: application/json" \
+  -d '{"chainType":"solana","instructions":[{"programId":"PROGRAM_ID","accounts":[{"pubkey":"ACCOUNT","isSigner":false,"isWritable":true}],"data":"BASE64_DATA"}],"network":"mainnet"}'
+```
+Fields: `chainType` (`"solana"`), `instructions` (array of program instructions — each with `programId`, `accounts` array of `{pubkey, isSigner, isWritable}`, and base64-encoded `data`), `network` (`"mainnet"` or `"devnet"`, default: `"mainnet"`), `idempotencyKey` (optional), `walletAddress` (optional). Transaction fees are sponsored.
 
 ### Sign Message
 ```bash
