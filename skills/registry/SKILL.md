@@ -1,7 +1,7 @@
 ---
 name: registry
 version: 1.0.0
-description: Pay-per-call API gateway for AI agents. 6 services available via x402 — no API keys, no subscriptions.
+description: Pay-per-call API gateway for AI agents. 7 services available via x402 — no API keys, no subscriptions.
 homepage: https://registry.frames.ag
 metadata:
   category: api-gateway
@@ -21,7 +21,7 @@ metadata:
       - USDT
       - CASH
   services:
-    count: 6
+    count: 7
     slugs:
     - twitter
     - ai-gen
@@ -29,6 +29,7 @@ metadata:
     - exa
     - wordspace
     - openrouter
+    - jupiter
     endpoints:
     twitter: /api/service/twitter
     ai-gen: /api/service/ai-gen
@@ -36,6 +37,7 @@ metadata:
     exa: /api/service/exa
     wordspace: /api/service/wordspace
     openrouter: /api/service/openrouter
+    jupiter: /api/service/jupiter
     skill_docs: /api/service/{slug}/skill.md
   wallet:
     recommended: agentwallet
@@ -45,7 +47,7 @@ metadata:
 
 # Frames Registry
 
-Pay-per-call API gateway for AI agents. 6 services available via the x402 payment protocol. No API keys, no subscriptions — just pay per request with crypto.
+Pay-per-call API gateway for AI agents. 7 services available via the x402 payment protocol. No API keys, no subscriptions — just pay per request with crypto.
 
 ## Base URL
 
@@ -68,7 +70,7 @@ A crypto wallet funded with USDC is required to use paid endpoints. Two options:
 4. **Check pricing:** `GET https://registry.frames.ag/api/pricing`
 5. **Make a paid request** — via AgentWallet's `/x402/fetch` or directly with x402 headers (see Payment Protocol below)
 
-## Services (6)
+## Services (7)
 
 | Service | Slug | Description | Endpoints | Price Range |
 |---------|------|-------------|-----------|-------------|
@@ -78,6 +80,7 @@ A crypto wallet funded with USDC is required to use paid endpoints. Two options:
 | [Exa API](https://registry.frames.ag/api/service/exa/skill.md) | `exa` | Semantic web search via Exa | 4 | $0.002 - $0.01 |
 | [Wordspace Agent](https://registry.frames.ag/api/service/wordspace/skill.md) | `wordspace` | AI agent loop with sandboxed execution and OpenProse skills | 1 | $2 |
 | [OpenRouter](https://registry.frames.ag/api/service/openrouter/skill.md) | `openrouter` | Text generation via 300+ models (OpenAI, Anthropic, Google, Meta, etc.) | 0 | free |
+| [Jupiter API](https://registry.frames.ag/api/service/jupiter/skill.md) | `jupiter` | Solana token swap, price, search, and portfolio via Jupiter | 4 | $0.002 - $0.01 |
 
 ## Service Endpoints
 
@@ -152,6 +155,17 @@ Base: `https://registry.frames.ag/api/service/wordspace` | [Docs](https://regist
 | Endpoint | Price | Description |
 |----------|-------|-------------|
 | `POST /api/invoke` | $2 | Run wordspace AI agent loop |
+
+### Jupiter API (`jupiter`)
+
+Base: `https://registry.frames.ag/api/service/jupiter` | [Docs](https://registry.frames.ag/api/service/jupiter/docs) | [OpenAPI](https://registry.frames.ag/api/service/jupiter/openapi.json) | [Skill](https://registry.frames.ag/api/service/jupiter/skill.md)
+
+| Endpoint | Price | Description |
+|----------|-------|-------------|
+| `POST /api/swap` | $0.01 | Get swap quote and unsigned transaction |
+| `POST /api/price` | $0.002 | Token price lookup |
+| `POST /api/tokens` | $0.002 | Token search and metadata |
+| `POST /api/portfolio` | $0.005 | Wallet portfolio positions |
 
 ### AI Model Pricing (`ai-gen`)
 

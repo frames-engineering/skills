@@ -1,6 +1,6 @@
 ---
 name: agentwallet
-version: 0.1.12
+version: 0.1.13
 description: Wallets for AI agents with x402 payment signing, referral rewards, and policy-controlled actions.
 homepage: https://frames.ag
 metadata: {"moltbot":{"category":"finance","api_base":"https://frames.ag/api"},"x402":{"supported":true,"chains":["solana","evm"],"networks":["solana:EtWTRABZaYq6iMfeYKouRu166VU2xqa1","solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp","eip155:8453","eip155:84532"],"tokens":["USDC"],"endpoint":"/api/wallets/{username}/actions/x402/fetch","legacyEndpoint":"/api/wallets/{username}/actions/x402/pay"},"referrals":{"enabled":true,"endpoint":"/api/wallets/{username}/referrals"}}
@@ -291,6 +291,13 @@ curl -X POST "https://frames.ag/api/wallets/USERNAME/actions/contract-call" \
 ```
 Fields: `chainType` (`"ethereum"`), `to` (contract address), `data` (hex-encoded calldata), `value` (wei, optional, default `"0x0"`), `chainId`, `idempotencyKey` (optional), `walletAddress` (optional).
 
+**Raw transaction mode:** Instead of `to`/`data`, pass a `rawTransaction` field with a hex-encoded serialized unsigned EVM transaction. The `to`, `data`, and `value` are extracted from the transaction automatically. `chainId` is still required.
+```bash
+curl -X POST "https://frames.ag/api/wallets/USERNAME/actions/contract-call" \
+  -H "Authorization: Bearer TOKEN" -H "Content-Type: application/json" \
+  -d '{"chainType":"ethereum","rawTransaction":"0x02...","chainId":8453}'
+```
+
 ### Solana Contract Call (Program Instruction)
 ```bash
 curl -X POST "https://frames.ag/api/wallets/USERNAME/actions/contract-call" \
@@ -298,6 +305,13 @@ curl -X POST "https://frames.ag/api/wallets/USERNAME/actions/contract-call" \
   -d '{"chainType":"solana","instructions":[{"programId":"PROGRAM_ID","accounts":[{"pubkey":"ACCOUNT","isSigner":false,"isWritable":true}],"data":"BASE64_DATA"}],"network":"mainnet"}'
 ```
 Fields: `chainType` (`"solana"`), `instructions` (array of program instructions — each with `programId`, `accounts` array of `{pubkey, isSigner, isWritable}`, and base64-encoded `data`), `network` (`"mainnet"` or `"devnet"`, default: `"mainnet"`), `idempotencyKey` (optional), `walletAddress` (optional). Transaction fees are sponsored.
+
+**Raw transaction mode:** Instead of `instructions`, pass a `rawTransaction` field with a base64-encoded serialized `VersionedTransaction`. Use this when a protocol (e.g., Jupiter) returns a pre-built transaction with Address Lookup Tables.
+```bash
+curl -X POST "https://frames.ag/api/wallets/USERNAME/actions/contract-call" \
+  -H "Authorization: Bearer TOKEN" -H "Content-Type: application/json" \
+  -d '{"chainType":"solana","rawTransaction":"BASE64_TRANSACTION","network":"mainnet"}'
+```
 
 ### Sign Message
 ```bash
