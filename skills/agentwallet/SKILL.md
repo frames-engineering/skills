@@ -3,7 +3,7 @@ name: agentwallet
 version: 0.1.13
 description: Wallets for AI agents with x402 payment signing, referral rewards, and policy-controlled actions.
 homepage: https://frames.ag
-metadata: {"moltbot":{"category":"finance","api_base":"https://frames.ag/api"},"x402":{"supported":true,"chains":["solana","evm"],"networks":["solana:EtWTRABZaYq6iMfeYKouRu166VU2xqa1","solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp","eip155:8453","eip155:84532"],"tokens":["USDC"],"endpoint":"/api/wallets/{username}/actions/x402/fetch","legacyEndpoint":"/api/wallets/{username}/actions/x402/pay"},"referrals":{"enabled":true,"endpoint":"/api/wallets/{username}/referrals"}}
+metadata: {"moltbot":{"category":"finance","api_base":"https://frames.ag/api"},"x402":{"supported":true,"chains":["solana","evm"],"networks":["eip155:1","eip155:8453","eip155:10","eip155:137","eip155:42161","eip155:56","eip155:11155111","eip155:84532","eip155:100","solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp","solana:EtWTRABZaYq6iMfeYKouRu166VU2xqa1"],"tokens":["USDC"],"endpoint":"/api/wallets/{username}/actions/x402/fetch","legacyEndpoint":"/api/wallets/{username}/actions/x402/pay"},"referrals":{"enabled":true,"endpoint":"/api/wallets/{username}/referrals"}}
 ---
 
 # AgentWallet
@@ -62,7 +62,8 @@ curl -s -X POST "https://frames.ag/api/wallets/USERNAME/actions/x402/fetch" \
 | `method` | string | No | HTTP method: GET, POST, PUT, DELETE, PATCH (default: GET) |
 | `body` | object | No | Request body (auto-serialized to JSON) |
 | `headers` | object | No | Additional headers to send |
-| `preferredChain` | string | No | `"auto"` (default), `"evm"`, or `"solana"`. Auto selects chain with sufficient USDC balance |
+| `preferredChain` | string | No | `"auto"` (default), `"evm"`, or `"solana"`. Auto selects chain with sufficient balance |
+| `preferredToken` | string | No | Token symbol to pay with: `"USDC"` (default), `"USDT"`, etc. Uses first available if not specified |
 | `dryRun` | boolean | No | Preview payment cost without paying |
 | `timeout` | number | No | Request timeout in ms (default: 30000, max: 120000) |
 | `idempotencyKey` | string | No | For deduplication |
@@ -273,7 +274,7 @@ curl -X POST "https://frames.ag/api/wallets/USERNAME/actions/transfer" \
 ```
 Fields: `to` (address), `amount` (smallest units — ETH: 18 decimals, USDC: 6 decimals), `asset` (`"eth"` or `"usdc"`), `chainId`, `idempotencyKey` (optional), `walletAddress` (optional — specify which wallet to send from).
 
-Supported USDC chains: Ethereum (1), Sepolia (11155111), Optimism (10), Polygon (137), Arbitrum (42161), Base (8453), Base Sepolia (84532).
+Supported USDC chains: Ethereum (1), Base (8453), Optimism (10), Polygon (137), Arbitrum (42161), BNB Smart Chain (56), Sepolia (11155111), Base Sepolia (84532), Gnosis (100).
 
 ### Solana Transfer
 ```bash
@@ -361,6 +362,8 @@ Use this only if you need fine-grained control. **For most cases, use x402/fetch
 | `requirement` | string or object | Payment requirement (base64 or JSON) |
 | `preferredChain` | `"evm"` or `"solana"` | Preferred blockchain |
 | `preferredChainId` | number | Specific EVM chain ID |
+| `preferredToken` | string | Token symbol: `"USDC"`, `"USDT"`, etc. |
+| `preferredTokenAddress` | string | Exact token contract address |
 | `idempotencyKey` | string | For deduplication |
 | `dryRun` | boolean | Sign without storing (for testing) |
 | `walletAddress` | string | Wallet address to use (for multi-wallet users) |
@@ -375,9 +378,16 @@ Use this only if you need fine-grained control. **For most cases, use x402/fetch
 
 | Network | CAIP-2 Identifier | Token |
 |---------|-------------------|-------|
-| Base Mainnet | `eip155:8453` | USDC |
+| Ethereum | `eip155:1` | USDC |
+| Base | `eip155:8453` | USDC |
+| Optimism | `eip155:10` | USDC |
+| Polygon | `eip155:137` | USDC |
+| Arbitrum | `eip155:42161` | USDC |
+| BNB Smart Chain | `eip155:56` | USDC |
+| Sepolia | `eip155:11155111` | USDC |
 | Base Sepolia | `eip155:84532` | USDC |
-| Solana Mainnet | `solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp` | USDC |
+| Gnosis | `eip155:100` | USDC |
+| Solana | `solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp` | USDC |
 | Solana Devnet | `solana:EtWTRABZaYq6iMfeYKouRu166VU2xqa1` | USDC |
 
 ### Common Errors
