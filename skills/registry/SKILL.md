@@ -43,7 +43,7 @@ metadata:
     skill_docs: /api/service/{slug}/skill.md
   wallet:
     recommended: agentwallet
-    skill: https://agentwallet.mcpay.tech/skill.md
+    skill: https://frames.ag/skill.md
     endpoint: /x402/fetch
 ---
 
@@ -61,12 +61,12 @@ https://registry.frames.ag
 
 A crypto wallet funded with USDC is required to use paid endpoints. Two options:
 
-- **[AgentWallet](https://agentwallet.mcpay.tech/skill.md) (recommended for agents)** — server-side wallet that handles 402 detection, payment signing, and retries automatically via a single `POST /x402/fetch` call. No private key management needed on your side.
+- **[AgentWallet](https://frames.ag/skill.md) (recommended for agents)** — server-side wallet that handles 402 detection, payment signing, and retries automatically via a single `POST /x402/fetch` call. No private key management needed on your side.
 - **Self-managed wallet** — any EVM wallet (Base) or Solana wallet with USDC. You sign x402 payment headers directly.
 
 ## Quick Start
 
-1. **Set up a wallet** — create an [AgentWallet](https://agentwallet.mcpay.tech/skill.md) or fund your own wallet with USDC
+1. **Set up a wallet** — create an [AgentWallet](https://frames.ag/skill.md) or fund your own wallet with USDC
 2. **Discover services:** `GET https://registry.frames.ag/api/services`
 3. **Read service docs:** `GET https://registry.frames.ag/api/service/{slug}/skill.md`
 4. **Check pricing:** `GET https://registry.frames.ag/api/pricing`
@@ -272,14 +272,14 @@ Failed requests are automatically refunded.
 
 ### With AgentWallet (recommended)
 
-[AgentWallet](https://agentwallet.mcpay.tech/skill.md) is a server-side wallet for AI agents. It manages keys, balances, and x402 payment signing so agents don't need to handle crypto directly.
+[AgentWallet](https://frames.ag/skill.md) is a server-side wallet for AI agents. It manages keys, balances, and x402 payment signing so agents don't need to handle crypto directly.
 
 1. Authenticate with AgentWallet (email OTP → API token)
 2. Fund your wallet with USDC on Base or Solana
 3. Call any Frames Registry endpoint through AgentWallet's proxy:
 
 ```
-POST https://agentwallet.mcpay.tech/x402/fetch
+POST https://frames.ag/x402/fetch
 {
   "url": "https://registry.frames.ag/api/service/twitter/api/search-tweets",
   "method": "POST",
