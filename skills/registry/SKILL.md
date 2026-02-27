@@ -191,6 +191,7 @@ Price is set dynamically based on the `model` field in the request body.
 | `flux/kontext-pro` | $0.05/image |
 | `bytedance/seedream-4` | $0.04/image |
 | `google/nano-banana` | $0.05/image |
+| `google/nano-banana-2` | $0.09/image (1K), $0.13/image (2K), $0.19/image (4K) |
 | `google/nano-banana-pro` | $0.18/image |
 | `google/imagen-4-fast` | $0.03/image |
 | `ideogram/v3-turbo` | $0.04/image |
