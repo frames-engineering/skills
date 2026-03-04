@@ -199,7 +199,6 @@ Price is set dynamically based on the `model` field in the request body.
 | `prunaai/p-image` | $0.006/image |
 | `fofr/sdxl-emoji` | $0.01 |
 | `qwen/qwen-image-edit-2511` | $0.04/image |
-| `xai/grok-2-image` | $0.09/image |
 | `openai/dall-e-3` | $0.15/image |
 | `nightmareai/real-esrgan` | $0.003/image |
 
