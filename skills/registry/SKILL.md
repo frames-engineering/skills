@@ -76,7 +76,7 @@ A crypto wallet funded with USDC is required to use paid endpoints. Two options:
 
 | Service | Slug | Description | Endpoints | Price Range |
 |---------|------|-------------|-----------|-------------|
-| [Twitter API](https://registry.frames.ag/api/service/twitter/skill.md) | `twitter` | Full Twitter API access - users, tweets, search, trends, and more via twitterapi.io | 17 | $0.005 - $0.02 |
+| [Twitter API](https://registry.frames.ag/api/service/twitter/skill.md) | `twitter` | Full Twitter API access - users, tweets, search, communities, spaces, trends, and more via twitterapi.io | 26 | $0.005 - $0.02 |
 | [AI Generation API](https://registry.frames.ag/api/service/ai-gen/skill.md) | `ai-gen` | Run AI models for image, video, audio, and 3D generation | 1 | $0.01 |
 | [x402 Test Service](https://registry.frames.ag/api/service/test/skill.md) | `test` | Test x402 payment flows on Base Sepolia (EVM) and Solana Devnet. Use this service to verify your x402 client integration is working correctly. | 2 | $0.001 |
 | [Exa API](https://registry.frames.ag/api/service/exa/skill.md) | `exa` | Semantic web search via Exa | 4 | $0.002 - $0.01 |
@@ -105,23 +105,32 @@ Base: `https://registry.frames.ag/api/service/twitter` | [Docs](https://registry
 
 | Endpoint | Price | Description |
 |----------|-------|-------------|
-| `POST /api/user-info` | $0.005 | Get user info by username |
-| `POST /api/user-tweets` | $0.01 | Get user's recent tweets |
-| `POST /api/user-followers` | $0.01 | Get user's followers |
-| `POST /api/user-following` | $0.01 | Get users that user follows |
-| `POST /api/search-users` | $0.01 | Search for users by keyword |
-| `POST /api/user-mentions` | $0.01 | Get tweets mentioning a user |
-| `POST /api/check-follow` | $0.005 | Check if one user follows another |
-| `POST /api/batch-users` | $0.02 | Batch get users by IDs |
-| `POST /api/tweets-by-ids` | $0.01 | Get tweets by their IDs |
-| `POST /api/tweet-replies` | $0.01 | Get replies to a tweet |
-| `POST /api/search-tweets` | $0.01 | Advanced tweet search with filters |
-| `POST /api/tweet-quotes` | $0.01 | Get quote tweets of a tweet |
-| `POST /api/tweet-thread` | $0.01 | Get tweet thread context |
-| `POST /api/list-tweets` | $0.01 | Get tweets from a Twitter List |
-| `POST /api/trends` | $0.01 | Get trending topics by location |
-| `POST /api/invoke` | $0.01 | Search tweets (legacy, use /api/search-tweets) |
-| `POST /api/search` | $0.01 | Search tweets (legacy, use /api/search-tweets) |
+| `POST /api/user-info` | $0.005 | Look up a Twitter user's profile by username — returns bio, follower/following counts, verification status, and profile metadata |
+| `POST /api/user-tweets` | $0.01 | Fetch a user's recent tweets by username or user ID, with optional reply inclusion and cursor pagination |
+| `POST /api/user-followers` | $0.01 | List accounts following a user, paginated up to 200 per page with cursor-based navigation |
+| `POST /api/user-following` | $0.01 | List accounts a user follows, paginated up to 200 per page with cursor-based navigation |
+| `POST /api/verified-followers` | $0.01 | List only verified (blue-check) accounts following a user, by user ID with cursor pagination |
+| `POST /api/search-users` | $0.01 | Search for Twitter users by keyword — matches against names, bios, and usernames |
+| `POST /api/user-mentions` | $0.01 | Fetch tweets that @mention a user, with optional time range filtering (sinceTime/untilTime unix timestamps) |
+| `POST /api/check-follow` | $0.005 | Check whether one user follows another — returns the follow relationship between two usernames |
+| `POST /api/batch-users` | $0.02 | Fetch multiple user profiles in one request by comma-separated user IDs |
+| `POST /api/tweets-by-ids` | $0.01 | Fetch full tweet data for multiple tweets by comma-separated tweet IDs |
+| `POST /api/tweet-replies` | $0.01 | Get replies to a specific tweet, sortable by Relevance, Latest, or Likes with cursor pagination |
+| `POST /api/search-tweets` | $0.01 | Advanced tweet search with operators — supports from:, to:, has:media, date ranges, engagement filters, and boolean logic |
+| `POST /api/tweet-quotes` | $0.01 | Get all quote tweets of a specific tweet, with optional time range and reply inclusion filters |
+| `POST /api/tweet-retweeters` | $0.01 | List users who retweeted a specific tweet, with cursor pagination |
+| `POST /api/tweet-thread` | $0.01 | Retrieve the full conversation thread for a tweet — parent tweets and replies in context |
+| `POST /api/list-tweets` | $0.01 | Fetch tweets from a Twitter List by list ID, with optional time range and reply filters |
+| `POST /api/list-followers` | $0.01 | List users who follow a specific Twitter List, with cursor pagination |
+| `POST /api/list-members` | $0.01 | List all members of a Twitter List, with cursor pagination |
+| `POST /api/community-info` | $0.005 | Get a Twitter Community's metadata — name, description, member count, rules, and creation date |
+| `POST /api/community-members` | $0.01 | List members of a Twitter Community, with cursor pagination |
+| `POST /api/community-tweets` | $0.01 | Fetch tweets posted in a Twitter Community, with cursor pagination |
+| `POST /api/space-detail` | $0.005 | Get details about a Twitter Space — title, host, participants, schedule, and state (live/scheduled/ended) |
+| `POST /api/article` | $0.01 | Retrieve a long-form Twitter Article (Notes) by the tweet ID that contains it |
+| `POST /api/trends` | $0.01 | Get trending topics for a location by WOEID (1=Worldwide, 23424977=US, 2459115=NYC) |
+| `POST /api/invoke` | $0.01 | Search tweets (legacy — use /api/search-tweets instead) |
+| `POST /api/search` | $0.01 | Search tweets (legacy — use /api/search-tweets instead) |
 
 ### AI Generation API (`ai-gen`)
 
