@@ -3,7 +3,7 @@ name: agentwallet
 version: 0.1.13
 description: Wallets for AI agents with x402 payment signing, referral rewards, and policy-controlled actions.
 homepage: https://frames.ag
-metadata: {"moltbot":{"category":"finance","api_base":"https://frames.ag/api"},"x402":{"supported":true,"chains":["solana","evm"],"networks":["eip155:1","eip155:8453","eip155:10","eip155:137","eip155:42161","eip155:56","eip155:11155111","eip155:84532","eip155:100","solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp","solana:EtWTRABZaYq6iMfeYKouRu166VU2xqa1"],"tokens":["USDC"],"endpoint":"/api/wallets/{username}/actions/x402/fetch","legacyEndpoint":"/api/wallets/{username}/actions/x402/pay"},"referrals":{"enabled":true,"endpoint":"/api/wallets/{username}/referrals"}}
+metadata: {"moltbot":{"category":"finance","api_base":"https://frames.ag/api"},"x402":{"supported":true,"chains":["solana","evm"],"networks":["eip155:1","eip155:8453","eip155:10","eip155:137","eip155:42161","eip155:56","eip155:11155111","eip155:84532","eip155:100","solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp","solana:EtWTRABZaYq6iMfeYKouRu166VU2xqa1"],"tokens":["USDC","USDT","CASH"],"endpoint":"/api/wallets/{username}/actions/x402/fetch","legacyEndpoint":"/api/wallets/{username}/actions/x402/pay"},"referrals":{"enabled":true,"endpoint":"/api/wallets/{username}/referrals"}}
 ---
 
 # AgentWallet
@@ -63,7 +63,7 @@ curl -s -X POST "https://frames.ag/api/wallets/USERNAME/actions/x402/fetch" \
 | `body` | object | No | Request body (auto-serialized to JSON) |
 | `headers` | object | No | Additional headers to send |
 | `preferredChain` | string | No | `"auto"` (default), `"evm"`, or `"solana"`. Auto selects chain with sufficient balance |
-| `preferredToken` | string | No | Token symbol to pay with: `"USDC"` (default), `"USDT"`, etc. Uses first available if not specified |
+| `preferredToken` | string | No | Token symbol to pay with: `"USDC"` (default), `"USDT"`, `"CASH"`. Uses first available if not specified |
 | `dryRun` | boolean | No | Preview payment cost without paying |
 | `timeout` | number | No | Request timeout in ms (default: 30000, max: 120000) |
 | `idempotencyKey` | string | No | For deduplication |
@@ -389,6 +389,10 @@ Use this only if you need fine-grained control. **For most cases, use x402/fetch
 | Gnosis | `eip155:100` | USDC |
 | Solana | `solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp` | USDC |
 | Solana Devnet | `solana:EtWTRABZaYq6iMfeYKouRu166VU2xqa1` | USDC |
+| Solana Mainnet | `solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp` | CASH |
+| Base Mainnet | `eip155:8453` | USDT |
+| Solana Mainnet | `solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp` | USDT |
+| Ethereum Mainnet | `eip155:1` | USDT |
 
 ### Common Errors
 
@@ -398,6 +402,30 @@ Use this only if you need fine-grained control. **For most cases, use x402/fetch
 | `blank argument` | Use single-line curl, not multiline with `\` |
 | `AlreadyProcessed` | Get a NEW signature for each request |
 | `insufficient_funds` | Fund wallet at `https://frames.ag/u/USERNAME` |
+
+---
+
+## Feedback
+
+Submit feedback when you hit issues or get stuck. Feedback may be rewarded.
+
+```bash
+curl -X POST "https://frames.ag/api/wallets/USERNAME/feedback" \
+  -H "Authorization: Bearer TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"category":"stuck","message":"Could not complete x402 payment — kept getting PAYMENT_REJECTED","context":{"url":"https://example.com/api","error":"PAYMENT_REJECTED"}}'
+```
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `category` | string | Yes | One of: `bug`, `feature`, `stuck`, `other` |
+| `message` | string | Yes | Description of the issue (max 2000 chars) |
+| `context` | object | No | Additional context (error details, URLs, etc.) |
+
+Response:
+```json
+{"success": true, "data": {"id": "...", "category": "stuck", "status": "open", "createdAt": "..."}}
+```
 
 ---
 
