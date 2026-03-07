@@ -1,7 +1,7 @@
 ---
 name: registry
 version: 1.0.0
-description: Pay-per-call API gateway for AI agents. 8 services available via x402 — no API keys, no subscriptions.
+description: Pay-per-call API gateway for AI agents. 10 services available via x402 — no API keys, no subscriptions.
 homepage: https://registry.frames.ag
 metadata:
   category: api-gateway
@@ -21,7 +21,7 @@ metadata:
       - USDT
       - CASH
   services:
-    count: 8
+    count: 10
     slugs:
     - twitter
     - ai-gen
@@ -31,6 +31,8 @@ metadata:
     - openrouter
     - jupiter
     - near-intents
+    - agentmail
+    - coingecko
     endpoints:
     twitter: /api/service/twitter
     ai-gen: /api/service/ai-gen
@@ -40,6 +42,8 @@ metadata:
     openrouter: /api/service/openrouter
     jupiter: /api/service/jupiter
     near-intents: /api/service/near-intents
+    agentmail: /api/service/agentmail
+    coingecko: /api/service/coingecko
     skill_docs: /api/service/{slug}/skill.md
   wallet:
     recommended: agentwallet
@@ -49,7 +53,7 @@ metadata:
 
 # Frames Registry
 
-Pay-per-call API gateway for AI agents. 8 services available via the x402 payment protocol. No API keys, no subscriptions — just pay per request with crypto.
+Pay-per-call API gateway for AI agents. 10 services available via the x402 payment protocol. No API keys, no subscriptions — just pay per request with crypto.
 
 ## Base URL
 
@@ -72,7 +76,7 @@ A crypto wallet funded with USDC is required to use paid endpoints. Two options:
 4. **Check pricing:** `GET https://registry.frames.ag/api/pricing`
 5. **Make a paid request** — via AgentWallet's `/x402/fetch` or directly with x402 headers (see Payment Protocol below)
 
-## Services (8)
+## Services (10)
 
 | Service | Slug | Description | Endpoints | Price Range |
 |---------|------|-------------|-----------|-------------|
@@ -84,6 +88,8 @@ A crypto wallet funded with USDC is required to use paid endpoints. Two options:
 | [OpenRouter](https://registry.frames.ag/api/service/openrouter/skill.md) | `openrouter` | Text generation via 300+ models (OpenAI, Anthropic, Google, Meta, etc.) | 0 | free |
 | [Jupiter API](https://registry.frames.ag/api/service/jupiter/skill.md) | `jupiter` | Solana token swap, price, search, and portfolio via Jupiter | 4 | $0.002 - $0.01 |
 | [NEAR Intents API](https://registry.frames.ag/api/service/near-intents/skill.md) | `near-intents` | Cross-chain token swaps via 1Click deposit addresses | 1 | $0.01 |
+| [AgentMail API](https://registry.frames.ag/api/service/agentmail/skill.md) | `agentmail` | Email infrastructure for AI agents — create inboxes, send/receive emails, manage threads | 5 | $0.005 - $0.01 |
+| [CoinGecko API](https://registry.frames.ag/api/service/coingecko/skill.md) | `coingecko` | Crypto price data, market info, and token search — prices, market caps, trending tokens, and search across 10,000+ cryptocurrencies | 5 | $0.002 - $0.005 |
 
 ## Service Endpoints
 
@@ -186,6 +192,30 @@ Base: `https://registry.frames.ag/api/service/near-intents` | [Docs](https://reg
 | Endpoint | Price | Description |
 |----------|-------|-------------|
 | `POST /api/quote` | $0.01 | Cross-chain swap quote and deposit address |
+
+### AgentMail API (`agentmail`)
+
+Base: `https://registry.frames.ag/api/service/agentmail` | [Docs](https://registry.frames.ag/api/service/agentmail/docs) | [OpenAPI](https://registry.frames.ag/api/service/agentmail/openapi.json) | [Skill](https://registry.frames.ag/api/service/agentmail/skill.md)
+
+| Endpoint | Price | Description |
+|----------|-------|-------------|
+| `POST /api/inbox/create` | $0.01 | Create a new email inbox for an AI agent |
+| `POST /api/send` | $0.01 | Send an email from an agent inbox |
+| `POST /api/messages` | $0.005 | List messages in an inbox |
+| `POST /api/message` | $0.005 | Get a specific message by ID |
+| `POST /api/threads` | $0.005 | List email threads in an inbox |
+
+### CoinGecko API (`coingecko`)
+
+Base: `https://registry.frames.ag/api/service/coingecko` | [Docs](https://registry.frames.ag/api/service/coingecko/docs) | [OpenAPI](https://registry.frames.ag/api/service/coingecko/openapi.json) | [Skill](https://registry.frames.ag/api/service/coingecko/skill.md)
+
+| Endpoint | Price | Description |
+|----------|-------|-------------|
+| `POST /api/price` | $0.002 | Get token prices in any fiat/crypto currency |
+| `POST /api/token-info` | $0.005 | Get detailed token information and market data |
+| `POST /api/trending` | $0.005 | Get currently trending tokens |
+| `POST /api/markets` | $0.005 | Get token market data with sorting and pagination |
+| `POST /api/search` | $0.003 | Search tokens by name or symbol |
 
 ### AI Model Pricing (`ai-gen`)
 
