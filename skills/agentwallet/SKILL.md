@@ -1,9 +1,9 @@
 ---
 name: agentwallet
 version: 0.2.0
-description: Wallets for AI agents with x402 payment signing, referral rewards, and policy-controlled actions.
+description: Wallets for AI agents with x402 and MPP payment signing, referral rewards, and policy-controlled actions.
 homepage: https://frames.ag
-metadata: {"moltbot":{"category":"finance","api_base":"https://frames.ag/api"},"x402":{"supported":true,"chains":["solana","evm"],"networks":["eip155:1","eip155:8453","eip155:10","eip155:137","eip155:42161","eip155:56","eip155:11155111","eip155:84532","eip155:100","solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp","solana:EtWTRABZaYq6iMfeYKouRu166VU2xqa1"],"tokens":["USDC","USDT","CASH"],"endpoint":"/api/wallets/{username}/actions/x402/fetch","legacyEndpoint":"/api/wallets/{username}/actions/x402/pay"},"referrals":{"enabled":true,"endpoint":"/api/wallets/{username}/referrals"}}
+metadata: {"moltbot":{"category":"finance","api_base":"https://frames.ag/api"},"x402":{"supported":true,"chains":["solana","evm"],"networks":["eip155:1","eip155:8453","eip155:10","eip155:137","eip155:42161","eip155:56","eip155:11155111","eip155:84532","eip155:100","solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp","solana:EtWTRABZaYq6iMfeYKouRu166VU2xqa1"],"tokens":["USDC","USDT","CASH"],"endpoint":"/api/wallets/{username}/actions/x402/fetch","legacyEndpoint":"/api/wallets/{username}/actions/x402/pay"},"mpp":{"supported":true,"methods":["tempo"],"endpoint":"/api/wallets/{username}/actions/mpp/pay"},"referrals":{"enabled":true,"endpoint":"/api/wallets/{username}/referrals"}}
 ---
 
 # AgentWallet
@@ -413,6 +413,71 @@ Use this only if you need fine-grained control. **For most cases, use x402/fetch
 | `blank argument` | Use single-line curl, not multiline with `\` |
 | `AlreadyProcessed` | Get a NEW signature for each request |
 | `insufficient_funds` | Fund wallet at `https://frames.ag/u/USERNAME` |
+
+---
+
+## MPP (Machine Payments Protocol)
+
+The `/x402/fetch` endpoint auto-detects both x402 and MPP protocols — no agent changes needed. When a target API responds with `WWW-Authenticate: Payment` (MPP) instead of `payment-required` (x402), the server handles it transparently.
+
+### How MPP Works
+
+1. Agent calls target API via `/x402/fetch`
+2. Target API returns 402 with `WWW-Authenticate: Payment id="...", method="tempo", ...`
+3. Server detects MPP, creates payment credential using Tempo
+4. Server retries request with `Authorization: Payment ...` header
+5. Target API returns the paid response
+
+### Supported MPP Methods
+
+| Method | Chain | Description |
+|--------|-------|-------------|
+| `tempo` | Tempo (eip155:4217) | Tempo blockchain payments via pathUSD/USDC.e |
+
+### Manual MPP Signing (Advanced)
+
+For fine-grained control, use the dedicated `/mpp/pay` endpoint:
+
+```bash
+curl -X POST "https://frames.ag/api/wallets/USERNAME/actions/mpp/pay" \
+  -H "Authorization: Bearer TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"wwwAuthenticateHeader":"Payment id=\\"abc\\", realm=\\"api.example.com\\", method=\\"tempo\\", intent=\\"charge\\", request=\\"...\\"","dryRun":false}'
+```
+
+**Request fields:**
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `wwwAuthenticateHeader` | string | Yes | The `WWW-Authenticate` header value from the 402 response |
+| `preferredMethod` | string | No | Preferred payment method (default: auto-detect) |
+| `idempotencyKey` | string | No | For deduplication |
+| `dryRun` | boolean | No | Sign without storing |
+| `walletAddress` | string | No | Wallet to use (for multi-wallet users) |
+
+**Response:**
+
+```json
+{
+  "authorizationId": "...",
+  "credential": "Payment eyJ...",
+  "challengeId": "...",
+  "method": "tempo",
+  "chain": "eip155:4217",
+  "amountRaw": "10000",
+  "recipient": "0x...",
+  "usage": {
+    "header": "Authorization",
+    "value": "Payment eyJ..."
+  }
+}
+```
+
+Use the credential as: `Authorization: Payment eyJ...` when retrying the original request.
+
+### Policy Limits
+
+MPP and x402 payments share the same daily spending limits. Combined daily spend is enforced across both protocols.
 
 ---
 
