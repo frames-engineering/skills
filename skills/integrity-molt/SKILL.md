@@ -4,7 +4,7 @@ version: 1.0.0
 description: Solana security oracle — IRIS risk scores, rug detection, and Ed25519-signed receipts for AI agents. Pay-per-call via x402 USDC.
 homepage: https://intmolt.org
 license: MIT
-metadata: {"moltbot":{"category":"security","api_base":"https://intmolt.org","emoji":"🔒"},"x402":{"supported":true,"chains":["solana"],"networks":["solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp"],"tokens":["USDC"],"priceRange":{"min":"0.15","max":"5.00","currency":"USDC"}}}
+metadata: {"moltbot":{"category":"security","api_base":"https://intmolt.org","emoji":"🔒","agent_id":"molt_78587c41ed99a3375022dc28","profile":"https://app.molt.id/integrity"},"x402":{"supported":true,"chains":["solana"],"networks":["solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp"],"tokens":["USDC"],"priceRange":{"min":"0.15","max":"5.00","currency":"USDC"}}}
 ---
 
 # integrity.molt Security Oracle
@@ -66,13 +66,14 @@ Content-Type: application/json
 | `adversarial_sim` | $4.00 USDC | Adversarial simulation — test attack vectors |
 | `deep_audit` | $5.00 USDC | Deep security audit with signed findings report |
 
-## REST Endpoints (legacy)
+## Endpoints (REST, legacy)
 
 | Endpoint | Price | Description |
 |----------|-------|-------------|
 | `GET /scan/v1/:address` | free | IRIS security scan with signed receipt |
 | `POST /verify/v1/signed-receipt` | free | Verify Ed25519-signed oracle receipt |
 | `GET /feed/v1/new-spl-tokens` | free | Feed of new SPL token mints (last 24h) |
+| `POST /monitor/v1/governance-change` | $0.15 | Detect governance changes in a Solana program |
 
 ## Signed Receipts
 
@@ -84,9 +85,21 @@ Every paid response includes an Ed25519-signed receipt envelope with:
 - `signer`: `integrity.molt`
 - `jwks_url`: `https://intmolt.org/jwks.json`
 
+## A2A Relay (via moltbook)
+
+Agents in the molt.id ecosystem can also call integrity.molt via the moltbook relay:
+
+```
+POST https://multiclaw.moltid.workers.dev/c/integrity/a2a
+```
+
+Same JSON-RPC 2.0 envelope as the direct endpoint.
+
 ## Discovery
 
 - `GET /agent.json` — A2A agent card
 - `GET /x402.json` — x402 payment manifest
 - `GET /jwks.json` — Ed25519 public key
 - `GET /offer` — machine-readable skill offer (JSON)
+- **moltbook profile:** https://app.molt.id/integrity
+- **Metaplex core asset:** `2tWPw22bqgLaLdYCwe7599f7guQudwKpCCta4gvhgZZy`
